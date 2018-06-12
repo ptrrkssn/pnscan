@@ -1072,6 +1072,7 @@ main(int argc,
 	    switch (argv[i][j])
 	    {
 	      case '-':
+              case '\0':
 		++i;
 		goto EndOptions;
 		
@@ -1110,8 +1111,13 @@ main(int argc,
 	      case 'w':
 		if (argv[i][2])
 		    wstr = (unsigned char *) strdup(argv[i]+2);
-		else
+		else if (i+1 < argc)
 		    wstr = (unsigned char *) strdup(argv[++i]);
+                else {
+                  fprintf(stderr, "%s: Missing required argument for '-w'\n",
+                          argv[0]);
+                  exit(1);
+                }
 		
 		wlen = deslash(wstr);
 		j = -2;
@@ -1120,8 +1126,14 @@ main(int argc,
 	      case 'W':
 		if (argv[i][2])
 		    wstr = (unsigned char *) strdup(argv[i]+2);
-		else
+		else if (i+1 < argc)
 		    wstr = (unsigned char *) strdup(argv[++i]);
+                else {
+                  fprintf(stderr, "%s: Missing required argument for '-W'\n",
+                          argv[0]);
+                  exit(1);
+                }
+
 		wlen = dehex(wstr);
 		j = -2;
 		break;
@@ -1129,8 +1141,14 @@ main(int argc,
 	      case 'R':
 		if (argv[i][2])
 		    rstr = (unsigned char *) strdup(argv[i]+2);
-		else
+		else if (i+1 < argc)
 		    rstr = (unsigned char *) strdup(argv[++i]);
+                else {
+                  fprintf(stderr, "%s: Missing required argument for '-R\n",
+                          argv[0]);
+                  exit(1);
+                }
+
 		rlen = dehex(rstr);
 		j = -2;
 		break;
@@ -1138,8 +1156,14 @@ main(int argc,
 	      case 'r':
 		if (argv[i][2])
 		    rstr = (unsigned char *) strdup(argv[i]+2);
-		else
+		else if (i+1 < argc)
 		    rstr = (unsigned char *) strdup(argv[++i]);
+                else {
+                  fprintf(stderr, "%s: Missing required argument for '-r'\n",
+                          argv[0]);
+                  exit(1);
+                }
+
 		rlen = deslash(rstr);
 		j = -2;
 		break;
