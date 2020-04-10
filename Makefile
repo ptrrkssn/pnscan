@@ -43,16 +43,19 @@ default:
 	@echo '   t64      (Tru64 Unix with Compaq C)'
 	@exit 1
 
+auto build:
+	@$(MAKE) `uname -s`
+
 t64 tru64 osf1 digitalunix:
 	@$(MAKE) all CC="$(T64_CC)" LIBS="$(T64_LIBS)" LDOPTS="$(T64_LDOPTS)"
 
-lnx linux:
+lnx linux Linux:
 	@$(MAKE) all CC="$(LNX_CC)" LIBS="$(LNX_LIBS)" LDOPTS="$(LNX_LDOPTS)"
 
 gso:
 	@$(MAKE) all CC="$(GSO_CC)" LIBS="$(GSO_LIBS)" LDOPTS="$(GSO_LDOPTS)"
 
-sol solaris:
+sol solaris SunOS:
 	@$(MAKE) all CC="$(SOL_CC)" LIBS="$(SOL_LIBS)" LDOPTS="$(SOL_LDOPTS)"
 
 all: pnscan
@@ -92,3 +95,10 @@ install-man: man
 
 
 install-all install-distribution: install
+
+push: 	clean
+	git add -A && git commit -a && git push
+
+pull:	clean
+	git pull
+

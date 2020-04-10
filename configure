@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Just a dummy configure script (all the magic is in Makefile for now)
+
+exit 0

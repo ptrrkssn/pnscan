@@ -93,7 +93,7 @@ bm_init(BM *bmp,
     int i;
 
 
-    memset(bmp, 0, sizeof(bmp));
+    memset(bmp, 0, sizeof(*bmp));
 
     bmp->icase = icase;
     bmp->bmGs = (int *) calloc(sizeof(int), m);

@@ -1,0 +1,21 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+#    - name: install dependencies
+#      run: test -f /usr/include/readline/readline.h || sudo apt install libreadline-dev
+    - name: configure
+      run: ./configure
+    - name: make
+      run: make build
+#    - name: make check
+#      run: make check
+#    - name: make distcheck
+#      run: make distcheck
