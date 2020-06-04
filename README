@@ -43,8 +43,9 @@ autodetect the system). It has (recently) been tested on:
 
   FreeBSD 11.3 & 12.0
   Ubuntu 20
-  CentOS 8
+  CentOS 6 & 8
   OmniOS r151034
+  Solaris 10 (requires Makefile changes)
 
 When it has been built you can install it with "make install-all".
 It will by default install in /usr/local/bin and /usr/local/man/man1
