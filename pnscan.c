@@ -995,9 +995,11 @@ get_port_range(char *str,
 	       int *first_port,
 	       int *last_port)
 {
-    char first[256], last[256];
+    char first[256];
+    char last[256];
 
-
+    first[0] = '\0';
+    last[0] = '\0';
     switch (sscanf(str, "%255[^: ] : %255s", first, last))
     {
       case 1:
