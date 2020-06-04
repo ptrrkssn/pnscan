@@ -1,6 +1,6 @@
 pnscan - a Parallel Network Scanner
 
-Copyright (c) 2002-2016 Peter Eriksson <pen@lysator.liu.se>
+Copyright (c) 2002-2020 Peter Eriksson <pen@lysator.liu.se>
 
 ----------------------------------------------------------------------
 
@@ -16,16 +16,15 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 INTRODUCTION
 
-Pnscan is a tool that can be used to survey TCP network
-services.
+Pnscan is a tool that can be used to survey IPv4 TCP network
+services. IPv6 is currently not supported.
 
 For example, it can be used to survey the installed versions of
 SSH, FTP, SMTP, Web, IDENT and possibly other services.
 
-The latest version of pnscan can always be downloaded
-from:
+The latest version of pnscan can be downloaded from:
 
-	ftp://ftp.lysator.liu.se/pub/unix/pnscan
+	https://github.com/ptrrkssn/pnscan
 
 There is also a small web page about it at:
 
@@ -39,12 +38,13 @@ some free beer or even just a "Thank you!" email :-)
 
 INSTALLATION
 
-Possibly edit the "Makefile" and the run 'make <SYSTEM>' where <SYSTEM>
-currently may be:
+Possibly edit the "Makefile" and then just run 'make' (it will try to
+autodetect the system). It has (recently) been tested on:
 
-	lnx	Linux with GCC v2
-	gso	Solaris with GCC v3
-	sol	Solaris with Forte C
+  FreeBSD 11.3 & 12.0
+  Ubuntu 20
+  CentOS 8
+  OmniOS r151034
 
 When it has been built you can install it with "make install-all".
 It will by default install in /usr/local/bin and /usr/local/man/man1
@@ -60,7 +60,7 @@ progress in the scan - up to a maximum either as specified with
 the "-n" command line option, or 8 minus the maximum number of
 available file descriptors (pnscan tries to increase
 it to the max limit automatically) - or any internal limit
-on the system (Linux normally only allows 256 threads).
+on the system.
 
 Host ranges can be specified both as a CIDR - network
 name or IP address / mask bit length and as a range.
@@ -133,5 +133,5 @@ echo '192.160.10.12' | pnscan 22
 WARNING
 
 Scanning of networks of which you do not have explicit permission
-to do probably will be considered abuse of network resources and
+to do probably _will_ be considered abuse of network resources and
 may cause problems for you. So *please* use this tool with great care.

@@ -30,7 +30,7 @@ SOL_LIBS= -lpthread -lnsl -lsocket
 ## Linux 2.4 with Gcc 2.96
 LNX_CC=gcc -Wall -g -O
 LNX_LDOPTS=-Wl,-s 
-LNX_LIBS=-lpthread -lnsl
+LNX_LIBS=-lpthread
 
 T64_CC=cc -pthread -O
 T64_LDOPTS=
@@ -40,7 +40,10 @@ T64_LIBS= -lpthread
 OBJS = pnscan.o bm.o version.o
 
 
-default:
+auto build:
+	@$(MAKE) `uname -s` || echo "Use 'make help' for list of targets."
+
+help:
 	@echo 'Use "make SYSTEM" where SYSTEM may be:'
 	@echo '   lnx      (Linux with GCC)'
 	@echo '   gso      (Solaris with GCC v3)'
@@ -49,8 +52,6 @@ default:
 	@echo '   bsd      (FreeBSD)'
 	@exit 1
 
-auto build:
-	@$(MAKE) `uname -s`
 
 t64 tru64 osf1 digitalunix:
 	@$(MAKE) all CC="$(T64_CC)" LIBS="$(T64_LIBS)" LDOPTS="$(T64_LDOPTS)"
