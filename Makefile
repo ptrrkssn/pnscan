@@ -15,7 +15,7 @@ GZIP=gzip
 MAKE=make
 INSTALL=./install-sh
 
-CFLAGS=-Wall -g -O
+CFLAGS=-Wall -O2 -g
 LIBS=-lpthread
 
 ## FreeBSD
