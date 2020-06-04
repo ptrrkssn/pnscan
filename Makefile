@@ -15,6 +15,9 @@ GZIP=gzip
 MAKE=make
 INSTALL=./install-sh
 
+# Default to gcc (also works with 'cc')
+CC=gcc
+
 CFLAGS=-pthread -Wall -O2 -g
 LDFLAGS=-pthread
 LIBS=
