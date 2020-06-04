@@ -12,6 +12,11 @@ MAKE=make
 INSTALL=./install-sh
 
 
+## FreeBSD
+BSD_CC=cc -Wall -g -O
+BSD_LDOPTS=-Wl,-s 
+BSD_LIBS=-lpthread
+
 ## Solaris 8 with Gcc 3.0
 GSO_CC=gcc -Wall -g -O -pthreads
 GSO_LDOPTS=
@@ -41,6 +46,7 @@ default:
 	@echo '   gso      (Solaris with GCC v3)'
 	@echo '   sol      (Solaris with Forte C)'
 	@echo '   t64      (Tru64 Unix with Compaq C)'
+	@echo '   bsd      (FreeBSD)'
 	@exit 1
 
 auto build:
@@ -51,6 +57,9 @@ t64 tru64 osf1 digitalunix:
 
 lnx linux Linux:
 	@$(MAKE) all CC="$(LNX_CC)" LIBS="$(LNX_LIBS)" LDOPTS="$(LNX_LDOPTS)"
+
+bsd freebsd FreeBSD:
+	@$(MAKE) all CC="$(BSD_CC)" LIBS="$(BSD_LIBS)" LDOPTS="$(BSD_LDOPTS)"
 
 gso:
 	@$(MAKE) all CC="$(GSO_CC)" LIBS="$(GSO_LIBS)" LDOPTS="$(GSO_LDOPTS)"
