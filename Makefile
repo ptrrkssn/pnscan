@@ -46,8 +46,8 @@ auto build:
 help:
 	@echo 'Use "make SYSTEM" where SYSTEM may be:'
 	@echo '   lnx      (Linux with GCC)'
-	@echo '   gso      (Solaris with GCC v3)'
-	@echo '   sol      (Solaris with Forte C)'
+	@echo '   sol      (Solaris with GCC)'
+	@echo '   solcc    (Solaris with Sun Studio C)'
 	@echo '   t64      (Tru64 Unix with Compaq C)'
 	@echo '   bsd      (FreeBSD)'
 	@exit 1
@@ -62,10 +62,12 @@ lnx linux Linux:
 bsd freebsd FreeBSD:
 	@$(MAKE) all CC="$(BSD_CC)" LIBS="$(BSD_LIBS)" LDOPTS="$(BSD_LDOPTS)"
 
-gso:
+# GCC
+gso sol solaris SunOS:
 	@$(MAKE) all CC="$(GSO_CC)" LIBS="$(GSO_LIBS)" LDOPTS="$(GSO_LDOPTS)"
 
-sol solaris SunOS:
+# Sun Studio C
+solcc solaris-cc SunOS-cc:
 	@$(MAKE) all CC="$(SOL_CC)" LIBS="$(SOL_LIBS)" LDOPTS="$(SOL_LDOPTS)"
 
 all: pnscan
