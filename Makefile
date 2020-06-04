@@ -15,15 +15,16 @@ GZIP=gzip
 MAKE=make
 INSTALL=./install-sh
 
-CFLAGS=-Wall -O2 -g
-LIBS=-lpthread
+CFLAGS=-pthread -Wall -O2 -g
+LDFLAGS=-pthread
+LIBS=
 
 ## FreeBSD
 BSD_CFLAGS=
 BSD_LIBS=
 
 ## Solaris/OmniOS
-SOL_CFLAGS=-pthreads
+SOL_CFLAGS=
 SOL_LIBS=-lnsl -lsocket
 
 ## Linux
@@ -31,7 +32,7 @@ LNX_CFLAGS=
 LNX_LIBS=
 
 # True64
-T64_CFLAGS=-pthread
+T64_CFLAGS=
 T64_LIBS=
 
 
