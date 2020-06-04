@@ -995,37 +995,40 @@ get_port_range(char *str,
 	       int *first_port,
 	       int *last_port)
 {
-  char *first, *last;
+    char first[256];
+    char last[256];
 
-  
-  first = strsep(&str, " :");
-  if (!first)
-    return -1;
-  
-  last = strsep(&str, " :");
-  
-  if (!last) {
-    if (strcmp(first, "all") == 0)
-      {
-	*first_port = 1;
-	*last_port  = 65535;
-	return 2;
-      }
-    
-    if (get_service(first, first_port) != 1)
-      return -1;
-    
-    *last_port = *first_port;
-    return 1;
-  }
 
-  if (get_service(first, first_port) != 1)
-    return -1;
+    memset(first, 0, sizeof(first));
+    memset(last, 0, sizeof(last));
   
-  if (get_service(last, last_port) != 1)
+    switch (sscanf(str, "%255[^: ] : %255s", first, last)) 
+    {
+      case 1:
+	if (strcmp(first, "all") == 0)
+	{
+	  *first_port = 1;
+	  *last_port  = 65535;
+	  return 2;
+	}
+    
+	if (get_service(first, first_port) != 1)
+	  return -1;
+	
+	*last_port = *first_port;
+	return 1;
+
+    case 2:
+      if (get_service(first, first_port) != 1)
+	return -1;
+      
+      if (get_service(last, last_port) != 1)
+	return -1;
+      
+      return 2;
+    }
+
     return -1;
-  
-  return 2;
 }
 
 

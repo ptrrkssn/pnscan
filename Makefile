@@ -15,12 +15,22 @@ GZIP=gzip
 MAKE=make
 INSTALL=./install-sh
 
-# Default to gcc (also works with 'cc')
+# Default to gcc (also works with llvm)
 CC=gcc
+CFLAGS= -Wall -pthread -g -O2
+LDFLAGS=
+LIBS=-lpthread
 
-CFLAGS=-pthread -Wall -O2 -g
-LDFLAGS=-pthread
-LIBS=
+# If your old GCC doesn't understand -pthread, use this:
+#CC=gcc -D _REENTRANT=1
+#CFLAGS=-Wall -g -O
+#LIBS=-lpthread
+
+# Sun Studio needs this
+#CC=cc -mt
+#CFLAGS=-g -O
+#LIBS=-lpthread
+
 
 ## FreeBSD
 BSD_CFLAGS=
@@ -56,16 +66,16 @@ help:
 
 
 t64 tru64 osf1 digitalunix:
-	@$(MAKE) CFLAGS="$(CFLAGS) $(T64_CFLAGS)" LIBS="$(LIBS) $(T64_LIBS)" all
+	@$(MAKE) CC="$(CC)" LDFLAGS="$(LDFLAGS)" CFLAGS="$(CFLAGS) $(T64_CFLAGS)" LIBS="$(LIBS) $(T64_LIBS)" all
 
 lnx linux Linux:
-	@$(MAKE) CFLAGS="$(CFLAGS) $(LNX_CFLAGS)" LIBS="$(LIBS) $(LNX_LIBS)" all
+	@$(MAKE) CC="$(CC)" LDFLAGS="$(LDFLAGS)" CFLAGS="$(CFLAGS) $(LNX_CFLAGS)" LIBS="$(LIBS) $(LNX_LIBS)" all
 
 bsd freebsd FreeBSD:
-	@$(MAKE) CFLAGS="$(CFLAGS) $(BSD_CFLAGS)" LIBS="$(LIBS) $(BSD_LIBS)" all
+	@$(MAKE) CC="$(CC)" LDFLAGS="$(LDFLAGS)" CFLAGS="$(CFLAGS) $(BSD_CFLAGS)" LIBS="$(LIBS) $(BSD_LIBS)" all
 
 sol solaris SunOS:
-	@$(MAKE) CFLAGS="$(CFLAGS) $(SOL_CFLAGS)" LIBS="$(LIBS) $(SOL_LIBS)" all
+	@$(MAKE) CC="$(CC)" LDFLAGS="$(LDFLAGS)" CFLAGS="$(CFLAGS) $(SOL_CFLAGS)" LIBS="$(LIBS) $(SOL_LIBS)" all
 
 
 all: pnscan
