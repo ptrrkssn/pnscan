@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+# Just a dummy configure script (all the magic is in Makefile for now)
+
+echo "Run 'make build' to compile"
+exit 0

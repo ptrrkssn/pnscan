@@ -1,7 +1,11 @@
+2020-06-14  Peter Eriksson <pen@lysator.liu.se>
+
+	* Modernized a bit. Now supports a real configure script
+
 2007-10-22  Peter Eriksson <pen@lysator.liu.se>
 
 	* pnscan.c: Fixed coredump when called without arguments. Thanks to
-	  Jose Luis Gonzalez for fixing and Ola Lundqvist for forwarding. 
+	  Jose Luis Gonzalez for fixing and Ola Lundqvist for forwarding.
 
 2002-03-27  Peter Eriksson  <pen@lysator.liu.se>
 
@@ -18,7 +22,7 @@
 2002-03-24  Ola Lundqvist <opal@debian.org>
 
 	* pnscan.sgml Added the other options implemented in pnscan.c.
-	
+
 2002-03-22  Peter Eriksson  <pen@lysator.liu.se>
 
 	* pnscan.c: Modified the threads startup code to dynamically only

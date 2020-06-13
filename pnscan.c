@@ -12,6 +12,8 @@
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -41,7 +43,7 @@
 #define RESPONSE_MAX_SIZE    1024
 
 
-extern char version[];
+char version[] = PACKAGE_VERSION;
 
 unsigned char *wstr = NULL;
 int   wlen = 0;
