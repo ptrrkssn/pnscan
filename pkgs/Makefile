@@ -11,7 +11,7 @@ port:	Makefile.port pkg-descr
 	mkdir -p "$(PORTSDIR)/$(PORTSNAME)"
 	cp Makefile.port "$(PORTSDIR)/$(PORTSNAME)/Makefile"
 	cp pkg-descr "$(PORTSDIR)/$(PORTSNAME)"
-	(cd "$(PORTSDIR)/$(PORTSNAME)" && make distclean && portlint -AC && make makesum)
+	(cd "$(PORTSDIR)/$(PORTSNAME)" && make distclean && make makesum && portlint -AC)
 
 
 # Clean targets
