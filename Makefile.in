@@ -80,10 +80,10 @@ install-bin: $(BINS)
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) -c $(BINS) $(DESTDIR)$(bindir)
 
-install-man:  acltool.man
+install-man:  pnscan.1
 	$(INSTALL) -d "$(DESTDIR)$(man1dir)"
-	$(INSTALL) -c pnscan.1 "$(DESTDIR)$(man1dir)"
-	gzip -f "$(DESTDIR)$(man1dir)/pnscan.1"
+	$(INSTALL) -c pnscan.1 "$(DESTDIR)$(man1dir)" && \
+	  gzip -f "$(DESTDIR)$(man1dir)/pnscan.1"
 
 
 uninstall-all uninstall: uninstall-bin uninstall-man
