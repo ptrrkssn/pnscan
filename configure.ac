@@ -16,6 +16,8 @@ AC_PROG_MAKE_SET
 
 # Checks for libraries.
 AC_CHECK_LIB([pthread], [pthread_create])
+AC_CHECK_LIB([socket], [connect])
+AC_CHECK_LIB([nsl], [gethostbyname])
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h locale.h netdb.h netinet/in.h stdlib.h string.h sys/socket.h sys/time.h unistd.h])
