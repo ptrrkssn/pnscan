@@ -2,7 +2,7 @@
 
 PORTNAME=		pnscan
 DISTVERSIONPREFIX=	v
-DISTVERSION=		1.14
+DISTVERSION=		1.14.1
 CATEGORIES=		sysutils security
 
 MAINTAINER=		pen@lysator.liu.se
