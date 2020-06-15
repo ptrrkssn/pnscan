@@ -13,6 +13,10 @@ TMPINSTDIR =	/var/tmp/pkg-build-$(PACKAGE)
 TMPDESTDIR =	$(TMPINSTDIR)/root
 TMPPKGDIR =	$(TMPINSTDIR)/pkg
 
+RPMBUILDDIR =	/root/rpmbuild
+RPMSPECSDIR =	$(RPMBUILDDIR)/SPECS
+RPMSRCDIR =	$(RPMBUILDDIR)/SOURCES
+
 INSTALL =	@INSTALL@
 @SET_MAKE@
 
@@ -64,6 +68,27 @@ svr solaris:
 
 svr-install: svr
 	pkgadd -d ./$(PKGNAME).pkg $(PKGNAME)
+
+
+## CentOS/RedHat RPM package:
+
+rpm centos redhat:
+
+rpm-lint: pnscan.spec
+	rpmlint pnscan.spec
+
+rpm-install-specs: pnscan.spec
+	$(INSTALL) -d $(RPMSPECSDIR)
+	$(INSTALL) -m 0644 pnscan.spec $(RPMSPECSDIR)
+
+rpm-install-dist:
+	(cd .. && make dist && cp $(PACKAGE)-$(VERSION).tar.gz $(RPMSRCDIR))
+
+rpm-build: rpm-install-specs
+	(cd $(SPECSDIR) && rpmbuild -ba pnscan.spec)
+
+rpm-install-deps:
+	yum install rpm-build rpmlint
 
 
 # Clean targets

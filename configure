@@ -3683,7 +3683,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files Makefile pkgs/Makefile pkgs/Makefile.port pkgs/pnscan.rb pkgs/pkginfo"
+ac_config_files="$ac_config_files Makefile pkgs/Makefile pkgs/Makefile.port pkgs/pnscan.rb pkgs/pkginfo pkgs/pnscan.spec"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -4382,6 +4382,7 @@ do
     "pkgs/Makefile.port") CONFIG_FILES="$CONFIG_FILES pkgs/Makefile.port" ;;
     "pkgs/pnscan.rb") CONFIG_FILES="$CONFIG_FILES pkgs/pnscan.rb" ;;
     "pkgs/pkginfo") CONFIG_FILES="$CONFIG_FILES pkgs/pkginfo" ;;
+    "pkgs/pnscan.spec") CONFIG_FILES="$CONFIG_FILES pkgs/pnscan.spec" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
