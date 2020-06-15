@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([Parallel Network Scanner], [1.14], [pen@lysator.liu.se], [pnscan], [https://github.com/ptrrkssn/pnscan])
+AC_INIT([Parallel Network Scanner], [1.14.1], [pen@lysator.liu.se], [pnscan], [https://github.com/ptrrkssn/pnscan])
 
 AC_CONFIG_SRCDIR([pnscan.c])
 AC_CONFIG_HEADERS([config.h])

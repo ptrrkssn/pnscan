@@ -74,15 +74,15 @@ pull:
 
 
 # Install targets
-install-all install:  install-bin install-man
+install install-all: install-bin install-man
 
-install-bin: $(BINS)
-	$(INSTALL) -d $(DESTDIR)$(bindir)
-	$(INSTALL) -c $(BINS) $(DESTDIR)$(bindir)
+install-bin install-strip: $(BINS)
+	$(INSTALL) -d "$(DESTDIR)$(bindir)"
+	$(INSTALL) -s $(BINS) "$(DESTDIR)$(bindir)"
 
 install-man:  pnscan.1
 	$(INSTALL) -d "$(DESTDIR)$(man1dir)"
-	$(INSTALL) -c pnscan.1 "$(DESTDIR)$(man1dir)" && \
+	$(INSTALL) pnscan.1 "$(DESTDIR)$(man1dir)" && \
 	  gzip -f "$(DESTDIR)$(man1dir)/pnscan.1"
 
 
