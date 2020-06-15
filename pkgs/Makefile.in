@@ -1,12 +1,12 @@
 # Makefile for pkgs
 
-PACKAGE =	pnscan
-VERSION =	1.14
+PACKAGE =	@PACKAGE_TARNAME@
+VERSION =	@PACKAGE_VERSION@
 PORTSDIR =	/usr/ports
 PORTSNAME =	sysutils/$(PACKAGE)
 BREWDIR =	/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula
-INSTALL =	/usr/bin/install -c
-
+INSTALL =	@INSTALL@
+@SET_MAKE@
 
 all:
 	@echo "Valid targets: 'port' (FreeBSD) or 'brew' (MacOS Homebrew)"

@@ -96,8 +96,8 @@ uninstall-man:
 
 
 # Check targets
-check:
-	@echo "Nothing to check for now."
+check:	pnscan
+	./pnscan -v 127.0.0.1 22
 
 
 DISTCHECKDIR=/tmp/distcheck-pnscan-$(VERSION)

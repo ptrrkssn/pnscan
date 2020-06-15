@@ -1,0 +1,20 @@
+# Documentation: https://docs.brew.sh/Formula-Cookbook
+#                https://rubydoc.brew.sh/Formula
+class Pnscan < Formula
+  desc "A tool to probe IPv4 networks for TCP services"
+  homepage "@PACKAGE_URL@"
+  url "@PACKAGE_URL@/archive/v@PACKAGE_VERSION@.tar.gz"
+
+  ## This line must be uncommented and updated with the correct hash value
+  ## The correct value will be displayed when doing 'brew install @PACKAGE_TARNAME@'
+  # sha256 "15430b64cb493571f6e46a38482402746bee7ed134c0e99d7976d231cab1c7d5"
+
+  def install
+    system "./configure", "--prefix=#{prefix}"
+    system "make install"
+  end
+
+  test do
+    system "#{bin}/@PACKAGE_TARNAME@", "-v", "127.0.0.1" "22"
+  end
+end
