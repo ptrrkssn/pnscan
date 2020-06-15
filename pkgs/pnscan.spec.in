@@ -3,9 +3,12 @@ Version:	@PACKAGE_VERSION@
 Release:	1%{?dist}
 Summary:	"Peter's Parallel Network Scanner"
 
+Group:		Applications/Network
 License:	BSD
 URL:		@PACKAGE_URL@
 Source0:	https://codeload.github.com/ptrrkssn/%{name}/tar.gz/v%{version}?dummy=/%{name}-%{version}.tar.gz
+
+# BuildArch:	x86_64
 Prefix:		%{_prefix}
 BuildRoot:	%{_tmppath}/%{name}-root
 
@@ -28,7 +31,7 @@ make DESTDIR="$RPM_BUILD_ROOT" install
 
 %files
 %defattr(-,root,root)
-%doc README LICENSE TODO
 %{_bindir}/pnscan
 %{_mandir}/man1/pnscan.1.gz
 
+%changelog

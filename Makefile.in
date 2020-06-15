@@ -77,13 +77,19 @@ pull:
 # Install targets
 install install-all: install-bin install-man
 
-install-bin install-strip: $(BINS)
+install-strip: install-bin-strip install-man
+
+install-bin: $(BINS)
+	$(INSTALL) -d "$(DESTDIR)$(bindir)"
+	$(INSTALL) $(BINS) "$(DESTDIR)$(bindir)"
+
+install-bin-strip: $(BINS)
 	$(INSTALL) -d "$(DESTDIR)$(bindir)"
 	$(INSTALL) -s $(BINS) "$(DESTDIR)$(bindir)"
 
 install-man:  pnscan.1
-	$(INSTALL) -d "$(DESTDIR)$(man1dir)"
-	$(INSTALL) pnscan.1 "$(DESTDIR)$(man1dir)" && \
+	-$(INSTALL) -d "$(DESTDIR)$(man1dir)"
+	-$(INSTALL) pnscan.1 "$(DESTDIR)$(man1dir)" && \
 	  gzip -f "$(DESTDIR)$(man1dir)/pnscan.1"
 
 
@@ -93,7 +99,7 @@ uninstall-bin:
 	rm -f "$(DESTDIR)$(bindir)/pnscan"
 
 uninstall-man:
-	rm -f "$(DESTDIR)$(man1dir)/pnscan.1.gz" "$(DESTDIR)$(man1dir)/pnscan.1"
+	test -d "$(TESTDIR)$(man1dir)" && rm -f "$(DESTDIR)$(man1dir)"/pnscan.1 "$(DESTDIR)$(man1dir)"/pnscan.1.gz
 
 
 # Check targets

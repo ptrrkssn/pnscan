@@ -28,5 +28,5 @@ AC_CHECK_HEADERS([arpa/inet.h fcntl.h locale.h netdb.h netinet/in.h stdlib.h str
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([atexit gethostbyaddr gethostbyname inet_ntoa memset setlocale socket strdup strerror])
 
-AC_CONFIG_FILES([Makefile pkgs/Makefile pkgs/Makefile.port pkgs/pnscan.rb pkgs/pkginfo pkgs/pnscan.spec])
+AC_CONFIG_FILES([Makefile pkgs/Makefile pkgs/Makefile.port pkgs/pnscan.rb pkgs/pkginfo pkgs/pnscan.spec pkgs/pkg-descr])
 AC_OUTPUT
