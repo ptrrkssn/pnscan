@@ -6,8 +6,7 @@ AC_INIT([Parallel Network Scanner], [1.14.1], [pen@lysator.liu.se], [pnscan], [h
 
 AC_CONFIG_SRCDIR([pnscan.c])
 AC_CONFIG_HEADERS([config.h])
-
-AC_CONFIG_AUX_DIR([aux])
+AC_CONFIG_AUX_DIR([build-aux])
 
 # Checks for programs.
 AC_PROG_CC
@@ -15,7 +14,7 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 # Checks for libraries.
-AC_CHECK_LIB([pthread], [pthread_create])
+AC_SEARCH_LIBS([pthread_create], [pthread])
 AC_CHECK_LIB([socket], [connect])
 AC_CHECK_LIB([nsl], [gethostbyname])
 
@@ -28,5 +27,5 @@ AC_CHECK_HEADERS([arpa/inet.h fcntl.h locale.h netdb.h netinet/in.h stdlib.h str
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([atexit gethostbyaddr gethostbyname inet_ntoa memset setlocale socket strdup strerror])
 
-AC_CONFIG_FILES([Makefile pkgs/Makefile pkgs/Makefile.port pkgs/pnscan.rb pkgs/pkginfo pkgs/pnscan.spec pkgs/pkg-descr])
+AC_CONFIG_FILES([Makefile pkgs/Makefile pkgs/Makefile.port pkgs/pnscan.rb pkgs/pkginfo pkgs/pnscan.spec pkgs/pkg-descr pkgs/build.sh])
 AC_OUTPUT

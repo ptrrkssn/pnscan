@@ -3,6 +3,7 @@
 PREFIX =	@prefix@
 PACKAGE =	@PACKAGE_TARNAME@
 VERSION =	@PACKAGE_VERSION@
+URL = 		@PACKAGE_URL@
 PORTSDIR =	/usr/ports
 PORTSNAME =	sysutils/$(PACKAGE)
 BREWDIR =	/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula
@@ -24,7 +25,12 @@ INSTALL =	@INSTALL@
 @SET_MAKE@
 
 all:
-	@echo "Valid targets: 'port' (FreeBSD) or 'brew' (MacOS Homebrew)"
+	@echo "Valid targets:"
+	@echo "  'port'   (FreeBSD)"
+	@echo "  'brew'   (MacOS Homebrew)"
+	@echo "  'rpm'    (CentOS/Redhat package)"
+	@echo "  'svr'    (Solaris old-style SysV package)"
+	@echo "  'omnios' (OmniOS-Extra IPS repo)"
 	@exit 1
 
 ## FreeBSD Ports package:
@@ -97,6 +103,38 @@ rpm-install-deps:
 
 rpm-install: rpm
 	rpm -ivvh $(PACKAGE)-$(VERSION)-1.*.`uname -m`.rpm
+
+
+## OmniOS (omnios-extra) IPS package:
+
+OCEXDIR = ../../omnios-extra
+OCEXNAME = ooce/network/pnscan
+OCEXBUILDDIR = /tmp/build_$(USER)
+
+omnios: omnios-build
+
+omnios-install-config:
+	(cd $(OCEXDIR) && git checkout "$(PACKAGE)")
+	$(INSTALL) -d "$(OCEXDIR)/build/$(PACKAGE)"
+	$(INSTALL) build.sh local.mog "$(OCEXDIR)/build/$(PACKAGE)"
+	(cd "$(OCEXDIR)/doc" && if ! fgrep "$(OCEXNAME)" baseline; then \
+	  (cat baseline ; echo "extra.omnios $(OCEXNAME)") | sort >baseline.new && mv baseline.new baseline; \
+	fi)
+	(cd "$(OCEXDIR)/doc" && if ! fgrep "$(OCEXNAME)" packages.md; then \
+	  (head -2 packages.md ; \
+	   (tail +2 packages.md ; echo "| $(OCEXNAME)		| $(VERSION)	| $(URL) | [ptrrkssn](https://github.com/ptrrkssn)") | \
+	    sort) >packages.md.new && mv packages.md.new packages.md; \
+	fi)
+
+omnios-install-dist:
+	(cd .. && make dist && $(INSTALL) "$(PACKAGE)-$(VERSION).tar.gz" "$(OCEXBUILDDIR)/$(PACKAGE)-$(VERSION)")
+
+omnios-build: omnios-install-config omnios-install-dist
+	(cd $(OCEXDIR)/build/$(PACKAGE) && ./build.sh)
+
+omnios-clean:
+	(cd $(OCEXDIR)/build/$(PACKAGE) && rm -f build.log* tmp *~)
+
 
 # Clean targets
 maintainer-clean:	distclean

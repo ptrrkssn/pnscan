@@ -22,7 +22,7 @@ bindir = @bindir@
 mandir = @mandir@
 man1dir = ${mandir}/man1
 
-CC = @CC@
+CC=@CC@
 INSTALL=@INSTALL@
 TAR = tar
 
@@ -30,7 +30,7 @@ PACKAGE=@PACKAGE_TARNAME@
 VERSION=@PACKAGE_VERSION@
 
 CPPFLAGS = @CPPFLAGS@ -I. -I${srcdir}
-CFLAGS = @CFLAGS@ -pthread -Wall
+CFLAGS = -pthread -Wall @CFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 
