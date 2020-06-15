@@ -1,7 +1,7 @@
 # Makefile for pkgs
 
 PACKAGE =	pnscan
-VERSION =	1.14
+VERSION =	1.14.1
 PORTSDIR =	/usr/ports
 PORTSNAME =	sysutils/$(PACKAGE)
 BREWDIR =	/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula

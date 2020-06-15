@@ -3,7 +3,7 @@
 class Pnscan < Formula
   desc "A tool to probe IPv4 networks for TCP services"
   homepage "https://github.com/ptrrkssn/pnscan"
-  url "https://github.com/ptrrkssn/pnscan/archive/v1.14.tar.gz"
+  url "https://github.com/ptrrkssn/pnscan/archive/v1.14.1.tar.gz"
 
   ## This line must be uncommented and updated with the correct hash value
   ## The correct value will be displayed when doing 'brew install pnscan'

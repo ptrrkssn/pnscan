@@ -6,6 +6,7 @@
 .TH "PNSCAN" "1" "27 March 2002" "" ""
 .SH NAME
 pnscan \- multi threaded port scanning tool
+
 .SH SYNOPSIS
 
 \fBpnscan\fR [ \fBoptions\fR]  [ \fB<CIDR | host-range> <port-range>\fR] 
@@ -14,7 +15,6 @@ pnscan \- multi threaded port scanning tool
 \fBpnscan\fR [ \fBoptions\fR]  [ \fB<port>\fR] 
 
 .SH "DESCRIPTION"
-.PP
 This manual page documents briefly the
 \fBpnscan\fR command.
 .PP
@@ -32,6 +32,7 @@ SSH, FTP, SMTP, Web, IDENT and possibly other services.
 This program implements a multithreaded TCP port scanner.
 More information and new relaseses may be found at:
 http://www.lysator.liu.se/~pen/pnscan
+
 .SH "OPTIONS"
 .TP
 \fB-h\fR
@@ -86,15 +87,9 @@ Connect/Write/Read timeout.
 .TP
 \fB-n<workers> \fR
 Maximum concurrent worker threads to start.
+
 .SH "SEE ALSO"
-.PP
-nmap (1) and ipsort (1).
+.BR nmap (1)
+
 .SH "AUTHOR"
-.PP
 pnscan was written by Peter Eriksson <pen@lysator.liu.se>.
-.PP
-Permission is granted to copy, distribute and/or modify this
-document under the terms of the GNU Free
-Documentation License, Version 1.1 or any later version
-published by the Free Software Foundation; with no Invariant
-Sections, no Front-Cover Texts and no Back-Cover Texts.
