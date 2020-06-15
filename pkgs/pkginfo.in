@@ -1,0 +1,12 @@
+PKG=LYS@PACKAGE_TARNAME@
+NAME=@PACKAGE_STRING@
+VERSION=@PACKAGE_VERSION@
+DESC=A tool to manage (list/create/edit/search and more) NFSv4/ZFS-style ACLs.
+CLASSES=none
+CATEGORY=utility
+VENDOR=Peter Eriksson, Lysator ACS, Linkoping University, Sweden
+HOTLINE=@PACKAGE_URL@
+EMAIL=@PACKAGE_BUGREPORT@
+ISTATES=S s 1 2 3
+RSTATES=S s 1 2 3
+BASEDIR=@prefix@

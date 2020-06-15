@@ -60,6 +60,7 @@ maintainer-clean:	distclean
 
 distclean:		clean
 	rm -fr config.status config.log stamp-h1 .deps autom4te.cache Makefile config.h *.tar.gz
+	(cd pkgs && $(MAKE) distclean)
 
 clean mostlyclean:
 	-rm -f *~ \#* *.o $(BINS) core *.core vgcore.*

@@ -1,10 +1,18 @@
 # Makefile for pkgs
 
+PREFIX =	@prefix@
 PACKAGE =	@PACKAGE_TARNAME@
 VERSION =	@PACKAGE_VERSION@
 PORTSDIR =	/usr/ports
 PORTSNAME =	sysutils/$(PACKAGE)
 BREWDIR =	/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula
+
+PKGPREFIX =     LYS
+PKGNAME =	$(PKGPREFIX)$(PACKAGE)
+TMPINSTDIR =	/var/tmp/pkg-build-$(PACKAGE)
+TMPDESTDIR =	$(TMPINSTDIR)/root
+TMPPKGDIR =	$(TMPINSTDIR)/pkg
+
 INSTALL =	@INSTALL@
 @SET_MAKE@
 
@@ -12,7 +20,7 @@ all:
 	@echo "Valid targets: 'port' (FreeBSD) or 'brew' (MacOS Homebrew)"
 	@exit 1
 
-#
+## FreeBSD Ports package:
 
 port:	Makefile.port pkg-descr pkg-plist
 	mkdir -p "$(PORTSDIR)/$(PORTSNAME)"
@@ -23,7 +31,8 @@ port:	Makefile.port pkg-descr pkg-plist
 port-install: port
 	(cd "$(PORTSDIR)/$(PORTSNAME)" && make install)
 
-#
+
+## MacOS HomeBrew package:
 
 brew: brew-install-formulae brew-install-dist
 
@@ -42,11 +51,27 @@ brew-install-dist:
 	(cd .. && $(MAKE) dist && cp "$(PACKAGE)-$(VERSION).tar.gz" "`brew --cache $(PACKAGE)`")
 
 
+## SVR (Solaris) package:
+
+svr solaris:
+	mkdir -p "$(TMPDESTDIR)" && (cd .. && make DESTDIR="$(TMPDESTDIR)" install)
+	(echo "i pkginfo"; (cd "$(TMPDESTDIR)$(PREFIX)" && find . -print | pkgproto | awk '{print $$1, $$2, $$3, $$4, "root", "root"}' )) >$(TMPINSTDIR)/prototype
+	mkdir -p $(TMPPKGDIR)
+	cp pkginfo $(TMPINSTDIR)
+	pkgmk -o -a "`uname -p`" -r $(TMPDESTDIR)$(PREFIX) -d $(TMPPKGDIR) -f $(TMPINSTDIR)/prototype
+	pkgtrans -s $(TMPPKGDIR) `pwd`/$(PKGNAME).pkg $(PKGNAME)
+	rm -fr "$(TMPINSTDIR)"
+
+svr-install: svr
+	pkgadd -d ./$(PKGNAME).pkg $(PKGNAME)
+
+
 # Clean targets
 maintainer-clean:	distclean
 
 distclean:		clean
-	rm -fr Makefile.port
+	rm -fr Makefile.port LYS$(PACKAGE).pkg pkginfo $(PACKAGE).rb Makefile
+	rm -fr "$(TMPINSTDIR)"
 
 clean mostlyclean:
 	-rm -f *~ \#*
