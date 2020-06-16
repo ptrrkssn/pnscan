@@ -57,9 +57,11 @@ port: Makefile.port pkg-descr pkg-plist port-install-dist
 	(cd "$(PORTSDIR)/$(PORTSNAME)" && \
 	  make clean && \
 	  make makesum && portlint -AC && \
-	  port test "$(PORTSDIR)/$(PORTSNAME)" && \
 	  make package)
 	cp "$(PORTSDIR)/$(PORTSNAME)/work/pkg/$(PACKAGE)-$(VERSION).txz" .
+
+port-test:
+	(cd "$(PORTSDIR)/$(PORTSNAME)" && port test "$(PORTSDIR)/$(PORTSNAME)")
 
 port-install-dist:
 	(cd .. && make dist && \
