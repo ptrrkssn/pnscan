@@ -137,7 +137,8 @@ omnios-install-config:
 	fi)
 
 omnios-install-dist:
-	(cd .. && make dist && $(INSTALL) "$(PACKAGE)-$(VERSION).tar.gz" "$(OCEXBUILDDIR)/$(PACKAGE)-$(VERSION)")
+	(cd .. && make dist && $(INSTALL) -d "$(OCEXBUILDDIR)/$(PACKAGE)-$(VERSION)" && \
+	  $(INSTALL) "$(PACKAGE)-$(VERSION).tar.gz" "$(OCEXBUILDDIR)/$(PACKAGE)-$(VERSION)")
 
 omnios-build: omnios-install-config omnios-install-dist
 	(cd $(OCEXDIR)/build/$(PACKAGE) && ./build.sh)
