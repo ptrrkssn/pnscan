@@ -161,7 +161,7 @@ omnios-clean:
 maintainer-clean:	distclean
 
 distclean:		clean
-	rm -f Makefile Makefile.port *.pkg pkginfo $(PACKAGE).rb *.rpm *.spec pkg-descr *.txz
+	rm -f Makefile Makefile.port *.pkg pkginfo *.rb *.rpm *.spec pkg-descr build.sh *.txz
 	rm -fr "$(TMPINSTDIR)"
 
 clean mostlyclean:
