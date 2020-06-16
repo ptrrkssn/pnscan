@@ -7,40 +7,44 @@
 .c.o:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
+DESTDIR =
+srcdir =	@srcdir@
+VPATH =		@srcdir@
+
+prefix =	@prefix@
+exec_prefix =	@exec_prefix@
+datarootdir =	@datarootdir@
+
+bindir =	@bindir@
+mandir =	@mandir@
+man1dir =	${mandir}/man1
+
+CC = 		@CC@
+INSTALL =	@INSTALL@
+TAR =		tar
+
+PACKAGE = 	@PACKAGE_TARNAME@
+VERSION =	@PACKAGE_VERSION@
+
+CPPFLAGS = 	@CPPFLAGS@ -I. -I${srcdir}
+CFLAGS = 	-pthread -Wall @CFLAGS@
+LDFLAGS = 	@LDFLAGS@
+LIBS = 		@LIBS@
+
 @SET_MAKE@
 
-srcdir = @srcdir@
-VPATH = @srcdir@
+VALGRIND = 	valgrind
+VALGRINDFLAGS =	--leak-check=full --track-origins=yes --error-exitcode=1 # --show-leak-kinds=all 
 
-DESTDIR =
+DISTCHECKDIR =	/tmp/distcheck-$(PACKAGE)-$(VERSION)
+DISTDIR =	/tmp/build-$(PACKAGE)-$(VERSION)
 
-prefix = @prefix@
-exec_prefix = @exec_prefix@
-datarootdir = @datarootdir@
+BINS =		pnscan
+OBJS =		pnscan.o bm.o
 
-bindir = @bindir@
-mandir = @mandir@
-man1dir = ${mandir}/man1
-
-CC=@CC@
-INSTALL=@INSTALL@
-TAR = tar
-
-PACKAGE=@PACKAGE_TARNAME@
-VERSION=@PACKAGE_VERSION@
-
-CPPFLAGS = @CPPFLAGS@ -I. -I${srcdir}
-CFLAGS = -pthread -Wall @CFLAGS@
-LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@
-
-VALGRIND=valgrind
-VALGRINDFLAGS=--leak-check=full --track-origins=yes --error-exitcode=1 # --show-leak-kinds=all 
-
-BINS=pnscan
-OBJS=pnscan.o bm.o
 
 all: $(BINS) Makefile
+
 
 Makefile: Makefile.in config.status
 	./config.status
@@ -48,17 +52,20 @@ Makefile: Makefile.in config.status
 config.h: config.h.in config.status
 	./config.status
 
-pnscan.o: 	pnscan.c bm.h
-bm.o:		bm.c bm.h
 
 pnscan: $(OBJS)
 	$(CC) $(LDFLAGS) -o pnscan $(OBJS) $(LIBS)
 
+pnscan.o: 	pnscan.c bm.h
+bm.o:		bm.c bm.h
+
+
+
 # Clean targets
-maintainer-clean:	distclean
+maintainer-clean: distclean
 	rm -f configure config.h.in
 
-distclean:		clean
+distclean: clean
 	rm -fr config.status config.log stamp-h1 .deps autom4te.cache Makefile config.h *.tar.gz
 	(cd pkgs && $(MAKE) distclean)
 
@@ -67,7 +74,7 @@ clean mostlyclean:
 
 
 # Git targets
-push: 	distclean
+push: distclean
 	git add -A && git commit -a && git push
 
 pull:
@@ -106,32 +113,29 @@ uninstall-man:
 check:	pnscan
 	./pnscan -v 127.0.0.1 22
 
-
-DISTCHECKDIR=/tmp/distcheck-pnscan-$(VERSION)
-
-distcheck: pnscan-$(VERSION).tar.gz
+distcheck: $(PACKAGE)-$(VERSION).tar.gz
 	@if test -d "$(DISTCHECKDIR)"; then \
 	  chmod -R +w "$(DISTCHECKDIR)" && rm -fr "$(DISTCHECKDIR)"; \
 	fi;
 	mkdir -p "$(DISTCHECKDIR)" && \
-	  gunzip <"pnscan-$(VERSION).tar.gz" | \
+	  gunzip <"$(PACKAGE)-$(VERSION).tar.gz" | \
 	    (cd "$(DISTCHECKDIR)" && $(TAR) xf - && \
-	     chmod -R -w "pnscan-$(VERSION)" && \
-	     mkdir b && cd b && ../pnscan-$(VERSION)/configure && \
+	     chmod -R -w "$(PACKAGE)-$(VERSION)" && \
+	     mkdir b && cd b && ../$(PACKAGE)-$(VERSION)/configure && \
 	     $(MAKE) && $(MAKE) -s check) && echo "*** distcheck: OK"
 	@chmod -R +w "$(DISTCHECKDIR)" && rm -fr "$(DISTCHECKDIR)";
 
 
-DISTDIR=/tmp/build-pnscan-$(VERSION)
+# Dist targets
 
-dist:	pnscan-$(VERSION).tar.gz
+dist:	$(PACKAGE)-$(VERSION).tar.gz
 
-pnscan-$(VERSION).tar.gz: Makefile
-	rm -fr "$(DISTDIR)" && mkdir -p "$(DISTDIR)/pnscan-$(VERSION)" && \
-	  cp -r * "$(DISTDIR)/pnscan-$(VERSION)" && \
-	  (cd "$(DISTDIR)/pnscan-$(VERSION)" && $(MAKE) distclean)
-	(cd "$(DISTDIR)" && $(TAR) cvf - "pnscan-$(VERSION)") | gzip >"pnscan-$(VERSION)".tar.gz
+$(PACKAGE)-$(VERSION).tar.gz: Makefile
+	rm -fr "$(DISTDIR)" && mkdir -p "$(DISTDIR)/$(PACKAGE)-$(VERSION)" && \
+	  cp -r * "$(DISTDIR)/$(PACKAGE)-$(VERSION)" && \
+	  (cd "$(DISTDIR)/$(PACKAGE)-$(VERSION)" && $(MAKE) distclean)
+	(cd "$(DISTDIR)" && $(TAR) cvf - "$(PACKAGE)-$(VERSION)") | gzip >"$(PACKAGE)-$(VERSION)".tar.gz
 	echo rm -fr "$(DISTDIR)"
 	@echo ""
-	@echo "*** pnscan-$(VERSION).tar.gz created"
+	@echo "*** $(PACKAGE)-$(VERSION).tar.gz created"
 

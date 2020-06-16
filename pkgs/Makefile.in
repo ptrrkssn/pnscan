@@ -4,25 +4,39 @@ PREFIX =	@prefix@
 PACKAGE =	@PACKAGE_TARNAME@
 VERSION =	@PACKAGE_VERSION@
 URL = 		@PACKAGE_URL@
+
+# FreeBSD Ports
 PORTSDIR =	/usr/ports
 PORTSNAME =	sysutils/$(PACKAGE)
+
+# HomeBrew (MacOS) package
 BREWDIR =	/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula
 
+# SVR (SysV / Solaris classic packages)
 PKGPREFIX =     LYS
 PKGNAME =	$(PKGPREFIX)$(PACKAGE)
 TMPINSTDIR =	/var/tmp/pkg-build-$(PACKAGE)
 TMPDESTDIR =	$(TMPINSTDIR)/root
 TMPPKGDIR =	$(TMPINSTDIR)/pkg
 
+# RPM
 RPMBUILDDIR =	/root/rpmbuild
 RPMSPECSDIR =	$(RPMBUILDDIR)/SPECS
 RPMSRCDIR =	$(RPMBUILDDIR)/SOURCES
 RPMRPMSDIR =	$(RPMBUILDDIR)/RPMS
 RPMSRPMSDIR =	$(RPMBUILDDIR)/SRPMS
 
+# OmniOS Extra Repo
+OCEXDIR =	../../omnios-extra
+OCEXNAME =	ooce/network/$(PACKAGE)
+OCEXBUILDDIR =	/tmp/build_$(USER)
+
+
 
 INSTALL =	@INSTALL@
+
 @SET_MAKE@
+
 
 all:
 	@echo "Valid targets:"
@@ -35,7 +49,7 @@ all:
 
 ## FreeBSD Ports package:
 
-port:	Makefile.port pkg-descr pkg-plist
+port: Makefile.port pkg-descr pkg-plist
 	mkdir -p "$(PORTSDIR)/$(PORTSNAME)"
 	cp Makefile.port "$(PORTSDIR)/$(PORTSNAME)/Makefile"
 	cp pkg-descr pkg-plist "$(PORTSDIR)/$(PORTSNAME)"
@@ -83,18 +97,18 @@ svr-install: svr
 
 rpm centos redhat: rpm-build
 
-rpm-lint: pnscan.spec
-	rpmlint pnscan.spec
+rpm-lint: $(PACKAGE).spec
+	rpmlint $(PACKAGE).spec
 
-rpm-install-specs: pnscan.spec
+rpm-install-specs: $(PACKAGE).spec
 	$(INSTALL) -d $(RPMSPECSDIR)
-	$(INSTALL) -m 0644 pnscan.spec $(RPMSPECSDIR)
+	$(INSTALL) -m 0644 $(PACKAGE).spec $(RPMSPECSDIR)
 
 rpm-install-dist:
 	(cd .. && make dist && cp $(PACKAGE)-$(VERSION).tar.gz $(RPMSRCDIR))
 
 rpm-build: rpm-install-specs rpm-install-dist
-	(cd $(RPMSPECSDIR) && rpmbuild -ba pnscan.spec) && \
+	(cd $(RPMSPECSDIR) && rpmbuild -ba $(PACKAGE).spec) && \
 	  cp $(RPMRPMSDIR)/`uname -m`/$(PACKAGE)-$(VERSION)*.rpm . && \
 	  cp $(RPMSRPMSDIR)/$(PACKAGE)-$(VERSION)*.src.rpm .
 
@@ -106,10 +120,6 @@ rpm-install: rpm
 
 
 ## OmniOS (omnios-extra) IPS package:
-
-OCEXDIR = ../../omnios-extra
-OCEXNAME = ooce/network/pnscan
-OCEXBUILDDIR = /tmp/build_$(USER)
 
 omnios: omnios-build
 
