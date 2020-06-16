@@ -28,17 +28,23 @@ some free beer or even just a "Thank you!" email :-)
 
 INSTALLATION
 
-Possibly edit the "Makefile" and then just run 'make' (it will try to
-autodetect the system). It has (recently) been tested on:
+Run "./configure && make" to configure & build. "make install" will install.
 
   FreeBSD 11.3 & 12.0
   Ubuntu 20
   CentOS 6 & 8
   OmniOS r151034
-  Solaris 10 (requires Makefile changes)
+  Solaris 10 (requires a GCC that understands -pthread, v5 works)
 
 When it has been built you can install it with "make install-all".
 It will by default install in /usr/local/bin and /usr/local/man/man1
+
+(Solaris 10 - Sun Studio 12.4 can be used to compile if you edit Makefile.in
+and change -pthread to -thread and remove -Wall before running ./configure)
+
+There is support for various package systems (FreeBSD ports, Linux RPM,
+MacOS HomeBrew, Solaris "svr" packages and OmniOS Extra IPS) in the "pkgs"
+subdirectory. See the pkgs/Makefile for details.
 
 
 USAGE
