@@ -8,6 +8,7 @@ URL = 		@PACKAGE_URL@
 # FreeBSD Ports
 PORTSDIR =	/usr/ports
 PORTSNAME =	sysutils/$(PACKAGE)
+PORTSRCDIR =    $(PORTSDIR)/distfiles
 
 # HomeBrew (MacOS) package
 BREWDIR =	/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula
@@ -49,11 +50,20 @@ all:
 
 ## FreeBSD Ports package:
 
-port: Makefile.port pkg-descr pkg-plist
-	mkdir -p "$(PORTSDIR)/$(PORTSNAME)"
+port: Makefile.port pkg-descr pkg-plist port-install-dist
+	$(INSTALL) -d "$(PORTSDIR)/$(PORTSNAME)"
 	cp Makefile.port "$(PORTSDIR)/$(PORTSNAME)/Makefile"
 	cp pkg-descr pkg-plist "$(PORTSDIR)/$(PORTSNAME)"
-	(cd "$(PORTSDIR)/$(PORTSNAME)" && make distclean && make makesum && portlint -AC && port test "$(PORTSDIR)/$(PORTSNAME)")
+	(cd "$(PORTSDIR)/$(PORTSNAME)" && \
+	  make clean && \
+	  make makesum && portlint -AC && \
+	  port test "$(PORTSDIR)/$(PORTSNAME)" && \
+	  make package)
+	cp "$(PORTSDIR)/$(PORTSNAME)/work/pkg/$(PACKAGE)-$(VERSION).txz" .
+
+port-install-dist:
+	(cd .. && make dist && \
+	  cp $(PACKAGE)-$(VERSION).tar.gz $(PORTSRCDIR)/ptrrkssn-$(PACKAGE)-v$(VERSION)_GH0.tar.gz)
 
 port-install: port
 	(cd "$(PORTSDIR)/$(PORTSNAME)" && make install)
@@ -151,7 +161,7 @@ omnios-clean:
 maintainer-clean:	distclean
 
 distclean:		clean
-	rm -f Makefile Makefile.port *.pkg pkginfo $(PACKAGE).rb *.rpm *.spec pkg-descr
+	rm -f Makefile Makefile.port *.pkg pkginfo $(PACKAGE).rb *.rpm *.spec pkg-descr *.txz
 	rm -fr "$(TMPINSTDIR)"
 
 clean mostlyclean:
