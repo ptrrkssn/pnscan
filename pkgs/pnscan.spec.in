@@ -3,7 +3,7 @@ Version:	@PACKAGE_VERSION@
 Release:	1%{?dist}
 Summary:	"Peter's Parallel Network Scanner"
 
-Group:		Applications/Network
+# Group:		Applications/Network
 License:	BSD
 URL:		@PACKAGE_URL@
 Source0:	https://codeload.github.com/ptrrkssn/%{name}/tar.gz/v%{version}?dummy=/%{name}-%{version}.tar.gz

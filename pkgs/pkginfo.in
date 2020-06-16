@@ -1,7 +1,7 @@
 PKG=LYS@PACKAGE_TARNAME@
 NAME=@PACKAGE_STRING@
 VERSION=@PACKAGE_VERSION@
-DESC=A tool to manage (list/create/edit/search and more) NFSv4/ZFS-style ACLs.
+DESC=A tool to scan IPv4 networks for open TCP services
 CLASSES=none
 CATEGORY=utility
 VENDOR=Peter Eriksson, Lysator ACS, Linkoping University, Sweden
