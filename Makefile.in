@@ -39,8 +39,13 @@ VALGRINDFLAGS =	--leak-check=full --track-origins=yes --error-exitcode=1 # --sho
 DISTCHECKDIR =	/tmp/distcheck-$(PACKAGE)-$(VERSION)
 DISTDIR =	/tmp/build-$(PACKAGE)-$(VERSION)
 
-BINS =		pnscan
-OBJS =		pnscan.o bm.o
+PBINS =		pnscan
+POBJS =		pnscan.o bm.o
+
+TBINS =		t_listen
+TOBJS = 	t_listen.o
+
+BINS =		$(PBINS) $(TBINS)
 
 
 all: $(BINS) Makefile
@@ -53,12 +58,14 @@ config.h: config.h.in config.status
 	./config.status
 
 
-pnscan: $(OBJS)
-	$(CC) $(LDFLAGS) -o pnscan $(OBJS) $(LIBS)
+pnscan: $(POBJS)
+	$(CC) $(LDFLAGS) -o pnscan $(POBJS) $(LIBS)
 
 pnscan.o: 	pnscan.c bm.h
 bm.o:		bm.c bm.h
 
+t_listen: t_listen.o
+	$(CC) $(LDFLAGS) -o t_listen $(TOBJS) $(LIBS)
 
 
 # Clean targets
@@ -70,7 +77,7 @@ distclean: clean
 	(cd pkgs && $(MAKE) distclean)
 
 clean mostlyclean:
-	-rm -f *~ \#* *.o $(BINS) core *.core vgcore.*
+	-rm -f *~ \#* *.o *.o core *.core vgcore.* $(BINS)
 
 
 # Git targets
@@ -84,15 +91,15 @@ pull:
 # Install targets
 install install-all: install-bin install-man
 
-install-strip: install-bin-strip install-man
+install-strip: install-strip-bin install-man
 
-install-bin: $(BINS)
+install-bin: $(PBINS)
 	$(INSTALL) -d "$(DESTDIR)$(bindir)"
-	$(INSTALL) $(BINS) "$(DESTDIR)$(bindir)"
+	$(INSTALL) $(PBINS) "$(DESTDIR)$(bindir)"
 
-install-bin-strip: $(BINS)
+install-strip-bin: $(PBINS)
 	$(INSTALL) -d "$(DESTDIR)$(bindir)"
-	$(INSTALL) -s $(BINS) "$(DESTDIR)$(bindir)"
+	$(INSTALL) -s $(PBINS) "$(DESTDIR)$(bindir)"
 
 install-man:  pnscan.1
 	-$(INSTALL) -d "$(DESTDIR)$(man1dir)"
@@ -110,8 +117,12 @@ uninstall-man:
 
 
 # Check targets
-check:	pnscan
-	./pnscan -v 127.0.0.1 22
+check:	pnscan t_listen
+	./pnscan -v 127.0.0.1 `./t_listen`
+
+check-valgrind:
+	$(VALGRIND) ./pnscan -v 127.0.0.1 `./t_listen`
+
 
 distcheck: $(PACKAGE)-$(VERSION).tar.gz
 	@if test -d "$(DISTCHECKDIR)"; then \
