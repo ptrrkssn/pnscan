@@ -116,12 +116,28 @@ uninstall-man:
 	test -d "$(TESTDIR)$(man1dir)" && rm -f "$(DESTDIR)$(man1dir)"/pnscan.1 "$(DESTDIR)$(man1dir)"/pnscan.1.gz
 
 
+CHECKCMD =	./pnscan
+
 # Check targets
-check:	pnscan t_listen
-	./pnscan -v 127.0.0.1 `./t_listen`
+check:	check-simple check-verbose check-hostname check-response check-response-fail
+
+check-simple: $(BINS)
+	$(CHECKCMD) 127.0.0.1 `./t_listen`
+
+check-verbose: $(BINS)
+	$(CHECKCMD) -v 127.0.0.1 `./t_listen`
+
+check-hostname: $(BINS)
+	$(CHECKCMD) -s 127.0.0.1 `./t_listen`
+
+check-response: $(BINS)
+	$(CHECKCMD) -r "Hello" 127.0.0.1 `./t_listen`
+
+check-response-fail: $(BINS)
+	$(CHECKCMD) -r "Hejsan" 127.0.0.1 `./t_listen`
 
 check-valgrind:
-	$(VALGRIND) ./pnscan -v 127.0.0.1 `./t_listen`
+	$(MAKE) CHECKCMD="$(VALGRIND) $(CHECKCMD)" check
 
 
 distcheck: $(PACKAGE)-$(VERSION).tar.gz

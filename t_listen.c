@@ -35,6 +35,8 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -71,6 +73,7 @@ main(int argc,
     
     memset(&s_sin, 0, sizeof(s_sin));
     s_sin.sin_family = AF_INET;
+    s_sin.sin_addr.s_addr = INADDR_ANY;
     s_sin.sin_port = htons(port);
 
     rc = bind(s_fd, (struct sockaddr *) &s_sin, sizeof(s_sin));
@@ -81,6 +84,10 @@ main(int argc,
   if (listen(s_fd, 10) < 0)
     error("listen");
 
+#if 0
+  signal(SIGPIPE, SIG_IGN);
+#endif
+  
   rc = fork();
   if (rc < 0)
     error("fork");
@@ -91,11 +98,14 @@ main(int argc,
   }
 
   close(0);
+  dup2(open("/dev/null", O_RDONLY), 0);
   close(1);
-  close(2);
+  dup2(open("/dev/null", O_WRONLY), 1);
+
   alarm(timeout);
   
   do {
+    r_sin_len = sizeof(r_sin);
     r_fd = accept(s_fd, (struct sockaddr *) &r_sin, &r_sin_len);
   } while (r_fd < 0 && errno == EINTR);
   
