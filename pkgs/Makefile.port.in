@@ -17,4 +17,7 @@ GH_ACCOUNT=		ptrrkssn
 GNU_CONFIGURE=		yes
 INSTALL_TARGET=		install-strip
 
+PLIST_FILES=		bin/pnscan \
+			man/man1/pnscan.1.gz
+
 .include <bsd.port.mk>

@@ -53,7 +53,7 @@ all:
 port: Makefile.port pkg-descr pkg-plist port-install-dist
 	$(INSTALL) -d "$(PORTSDIR)/$(PORTSNAME)"
 	cp Makefile.port "$(PORTSDIR)/$(PORTSNAME)/Makefile"
-	cp pkg-descr pkg-plist "$(PORTSDIR)/$(PORTSNAME)"
+	cp pkg-descr "$(PORTSDIR)/$(PORTSNAME)"
 	(cd "$(PORTSDIR)/$(PORTSNAME)" && \
 	  make clean && \
 	  make makesum && portlint -AC && \
@@ -64,6 +64,7 @@ port-test:
 	(cd "$(PORTSDIR)/$(PORTSNAME)" && port test "$(PORTSDIR)/$(PORTSNAME)")
 
 port-install-dist:
+	$(INSTALL) -d "$(PORTSRCDIR)"
 	(cd .. && make dist && \
 	  cp $(PACKAGE)-$(VERSION).tar.gz $(PORTSRCDIR)/ptrrkssn-$(PACKAGE)-v$(VERSION)_GH0.tar.gz)
 
